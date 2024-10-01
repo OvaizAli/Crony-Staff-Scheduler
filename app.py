@@ -27,21 +27,14 @@ st.title("Employee Schedule Generator")
 # Input Sales Target
 sales_target = st.number_input("Enter Sales Target for Each Day ($)", min_value=500, max_value=10000, step=1000)
 
-# Input Store Timings as "From" and "To"
-store_time_from = st.time_input("Store Opening Time", value=pd.Timestamp("09:00").time())
-store_time_to = st.time_input("Store Closing Time", value=pd.Timestamp("21:00").time())
-
-# Format the timings for display in the schedule
-store_timings = f"{store_time_from.strftime('%I:%M %p')} - {store_time_to.strftime('%I:%M %p')}"
-
 # File upload for previous schedule data
 uploaded_file = st.file_uploader("Upload CSV with Previous Schedules", type=["csv"])
 
 if uploaded_file is not None:
     # Reading the CSV file
     previous_data = pd.read_csv(uploaded_file)
-    st.write("Preview of uploaded file:")
-    st.dataframe(previous_data.head())
+    st.error("Preview of uploaded file:")
+    st.dataframe(previous_data)
     
     # Ensure the CSV has the expected columns
     expected_columns = ['EmployeeName', 'Date', 'Day', 'Employee Shift', 'Total Sales ($)']
@@ -67,11 +60,11 @@ if uploaded_file is not None:
         })
         
         # Display the grouped DataFrame with average sales and employees
-        st.header("Historical Average Sales and Employees by Shift")
+        st.success("Historical Average Sales and Employees by Shift")
         st.dataframe(grouped_by_shift_day)
         
         # Generate schedules based on previous data and target sales
-        st.header("Generated Employee Schedule for the Upcoming Week")
+        st.success("Generated Employee Schedule for the Upcoming Week")
         
         # Placeholder for generated schedule
         schedule = []
@@ -102,7 +95,10 @@ if uploaded_file is not None:
         
         # Convert to DataFrame for display
         schedule_df = pd.DataFrame(schedule)
-        st.dataframe(schedule_df)
+        
+        # Display the DataFrame using st.write() to avoid truncation
+        st.write("Generated Schedule:")
+        st.write(schedule_df)
         
         # Download button for generated schedule
         csv = schedule_df.to_csv(index=False)
