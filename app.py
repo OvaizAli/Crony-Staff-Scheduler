@@ -93,16 +93,23 @@ if uploaded_file is not None:
                     'Assigned Employees': ', '.join(employees_assigned)
                 })
         
-        # Convert to DataFrame for display
+       # Convert to DataFrame for display
         schedule_df = pd.DataFrame(schedule)
-        
-        # Display the DataFrame using st.write() to avoid truncation
+
+        # Display the DataFrame using st.table() to ensure all values are fully visible
         st.write("Generated Schedule:")
-        st.write(schedule_df)
-        
+        # pd.set_option('display.max_columns', None)  # Display all columns
+        # pd.set_option('display.max_rows', None)     # Display all rows
+        # pd.set_option('display.max_colwidth', None)  # Display full column width
+        # st.dataframe(schedule_df, use_container_width=True)
+        st.table(schedule_df)
+
+
+
         # Download button for generated schedule
         csv = schedule_df.to_csv(index=False)
         st.download_button(label="Download Schedule as CSV", data=csv, file_name='generated_schedule.csv', mime='text/csv')
+
     
     else:
         st.error("The uploaded file does not match the expected format. Please check the column names.")
