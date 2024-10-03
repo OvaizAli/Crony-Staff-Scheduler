@@ -97,7 +97,7 @@ if uploaded_file is not None:
         schedule_df = pd.DataFrame(schedule)
 
         # Display the DataFrame using st.table() to ensure all values are fully visible
-        st.write("Generated Schedule:")
+        # st.write("Generated Schedule:")
         # pd.set_option('display.max_columns', None)  # Display all columns
         # pd.set_option('display.max_rows', None)     # Display all rows
         # pd.set_option('display.max_colwidth', None)  # Display full column width
